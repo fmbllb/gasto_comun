@@ -20,5 +20,5 @@ class DepartmentService:
         return Department.query.all()        
     
     @staticmethod
-    def get_department_by_id(department_id):
-        return Department.query.get(department_id)
+    def get_department_by_id(id_departmento):
+        return Department.query.get(id_departmento)
