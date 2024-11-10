@@ -11,7 +11,7 @@ class BillService:
             fecha_gasto=fecha_gasto,
             tipo_gasto=tipo_gasto
         )
-        db.session.add()
+        db.session.add(bill)
         db.session.commit()
         return bill 
         
