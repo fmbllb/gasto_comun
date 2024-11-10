@@ -22,7 +22,3 @@ class BillService:
     @staticmethod
     def get_bill_by_id(id_departmento):
         return Bill.query.get(id_departmento)
-    
-    @staticmethod
-    def get_bill_by_date(fecha_gasto):
-        return Bill.query.filter_by(fecha_gasto=fecha_gasto).all()
