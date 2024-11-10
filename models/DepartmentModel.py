@@ -1,13 +1,17 @@
 from app import db
 
 class Department(db.Model):
+    __tablename__ = 'department'
+
     id_departamento = db.Column(db.Integer, primary_key=True)
     n_departamento = db.Column(db.Integer, unique=True, nullable=False)
     n_piso = db.Column(db.Integer, nullable=False)
-    direccion = db.Column(db.Varchar(100), nullable=False)
+    direccion = db.Column(db.String(100), nullable=False)
     n_telefono = db.Column(db.Integer, nullable=True)
-    disponibilidad = db.Column(db.Char, nullable=False)
-    bills = db.relationship('intersection', backref='id_departamento', lazy=True)
+    disponibilidad = db.Column(db.String(1), nullable=False)
+
+    # Relación con PaymentHistory
+    bills = db.relationship('PaymentHistory', back_populates='department', lazy=True)
     
     def serialize(self):
         return {

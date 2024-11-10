@@ -1,11 +1,16 @@
 from app import db
 
 class Bill(db.Model):
+    __tablename__ = 'bill'
+
     id_gasto = db.Column(db.Integer, primary_key=True)
-    nom_gasto = db.Column(db.Varchar(15), nullable=False)
+    nom_gasto = db.Column(db.String(15), nullable=False)
     total_gasto = db.Column(db.Integer, nullable=False)
     fecha_gasto = db.Column(db.Date, nullable=False)
-    tipo_gasto = db.Column(db.Char(1), nullable=False)
+    tipo_gasto = db.Column(db.String(1), nullable=False)
+
+    # Relación con PaymentHistory
+    departments = db.relationship('PaymentHistory', back_populates='bill', lazy=True)
     
     def serialize(self):
         return {
