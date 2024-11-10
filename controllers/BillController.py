@@ -1,4 +1,4 @@
-from services.BillsService import BillService
+from services.BillService import BillService
 
 class BillController:    
     @staticmethod
