@@ -1,6 +1,8 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
+from models import DepartmentModel
+
 
 db = SQLAlchemy()
 
@@ -24,7 +26,7 @@ def create_app():
     SingletonDB(app)  # Singleton instance of DB
 
     with app.app_context():
-        from models import UserModel, TaskModel
+        from models import TaskModel
         db.create_all()
 
     return app
