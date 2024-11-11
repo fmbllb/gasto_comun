@@ -11,8 +11,8 @@ class PaymentHistory(db.Model):
     estado_deuda = db.Column(db.String(1), nullable=False)
 
 
-    bill = db.relationship('Bill', back_populates='departments')
-    department = db.relationship('Department', back_populates='bills')
+    bill = db.relationship('Bill', back_populates='payment_history')
+    department = db.relationship('Department', back_populates='payment_history')
 
     def serialize(self):
         return {

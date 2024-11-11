@@ -10,13 +10,13 @@ class Bill(db.Model):
     tipo_gasto = db.Column(db.String(1), nullable=False)
 
     # Relación con PaymentHistory
-    departments = db.relationship('PaymentHistory', back_populates='bill', lazy=True)
+    payment_history = db.relationship('PaymentHistory', back_populates='bill', lazy=True)
     
     def serialize(self):
         return {
             'id_gasto': self.id_gasto,
             'nom_gasto': self.nom_gasto,
             'total_gasto': self.total_gasto,
-            'fecha_gasto': self.fecha_gasto,
+            'fecha_gasto': self.fecha_gasto.strftime('%Y-%m-%d') if self.fecha_gasto else None,
             'tipo_gasto': self.tipo_gasto,
         }

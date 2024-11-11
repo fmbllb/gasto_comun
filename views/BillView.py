@@ -10,19 +10,18 @@ class BillView:
     def create_bill():
         # Receive the request to create a bill and delegate to the controller
         data = request.get_json()
-        id_gasto = data.get('id_gasto')
         nom_gasto = data.get('nom_gasto')
         total_gasto = data.get('total_gasto')
         fecha_gasto = data.get('fecha_gasto')
         tipo_gasto = data.get('tipo_gasto')
 
-        new_bill = BillController.create_bill_controller(
-            id_gasto, nom_gasto, total_gasto, fecha_gasto, tipo_gasto
-        )
+        new_bill = BillController.create_bill_controller(nom_gasto, total_gasto, 
+                                                        fecha_gasto, tipo_gasto)
         
         return jsonify({
             "mensaje": "Gasto Comun creado", 
-            "Gasto Comun": {"id": new_bill.id_gasto, "nombre": new_bill.nom_gasto}
+            "Gasto Comun": {"id": new_bill.id_gasto, "nombre": new_bill.nom_gasto, 
+                            "Fecha Creacion Gasto": new_bill.fecha_gasto, "Tipo Gasto": new_bill.tipo_gasto}
         }), 201
 
     @staticmethod
