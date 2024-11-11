@@ -1,37 +1,44 @@
 from flask import Blueprint, request, jsonify
-from controllers.BillsController import BillController
+from controllers.BillController import BillController
 
 bill_blueprint = Blueprint('bill_blueprint', __name__)
 
-class DepartmentView:
+class BillView:
 
     @staticmethod
-    @bill_blueprint.route('/departments/create', methods=['POST'])
-    def create_department():
-        # Receive the request to create a department and delegate to the controller
+    @bill_blueprint.route('/bills/create', methods=['POST'])
+    def create_bill():
+        # Receive the request to create a bill and delegate to the controller
         data = request.get_json()
-        n_piso = data.get('n_piso')
-        new_department = DepartmentController.create_department_controller(n_piso)
+        id_gasto = data.get('id_gasto')
+        nom_gasto = data.get('nom_gasto')
+        total_gasto = data.get('total_gasto')
+        fecha_gasto = data.get('fecha_gasto')
+        tipo_gasto = data.get('tipo_gasto')
+
+        new_bill = BillController.create_bill_controller(
+            id_gasto, nom_gasto, total_gasto, fecha_gasto, tipo_gasto
+        )
         
         return jsonify({
-            "mensaje": "Departamento creado", 
-            "Departmento": {"id": new_department.id_departamento, "n_piso": new_department.n_piso}
+            "mensaje": "Gasto Comun creado", 
+            "Gasto Comun": {"id": new_bill.id_gasto, "nombre": new_bill.nom_gasto}
         }), 201
 
     @staticmethod
-    @department_blueprint.route('/departments', methods=['GET'])
-    def get_all_departments():
-        # Call the controller to get all departments
-        departments = DepartmentController.get_departments_controller()
-        departments_list = [{"id": department.id_departamento, "n_piso": department.n_piso} for department in departments]
-        return jsonify({"Departamentos": departments_list}), 200
+    @bill_blueprint.route('/bills', methods=['GET'])
+    def get_all_bills():
+        # Call the controller to get all bills
+        bills = BillController.get_bill_controller()
+        bills_list = [{"id": bill.id_gasto, "Gasto Comun": bill.nom_gasto} for bill in bills]
+        return jsonify({"Gastos Comunes": bills_list}), 200
 
     @staticmethod
-    @department_blueprint.route('/departments/<int:department_id>', methods=['GET'])
-    def get_department_by_id(department_id):
-        # Call the controller to get a department by its ID
-        department = DepartmentController.get_department_by_id_controller(department_id)
-        if department is None:
-            return jsonify({"mensaje": "Departamento inexistente"}), 404
+    @bill_blueprint.route('/bills/<int:id_gasto>', methods=['GET'])
+    def get_bill_by_id(id_gasto):
+        # Call the controller to get a bill by its ID
+        bill = BillController.get_bill_by_id_controller(id_gasto)
+        if bill is None:
+            return jsonify({"mensaje": "Gasto Comun inexistente"}), 404
         
-        return jsonify({"id": department.id_departamento, "n_piso": department.n_piso}), 200
+        return jsonify({"id": bill.id_gasto, "nom_gasto": bill.nom_gasto}), 200

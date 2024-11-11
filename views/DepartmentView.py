@@ -27,10 +27,10 @@ class DepartmentView:
         return jsonify({"Departamentos": departments_list}), 200
 
     @staticmethod
-    @department_blueprint.route('/departments/<int:department_id>', methods=['GET'])
-    def get_department_by_id(department_id):
+    @department_blueprint.route('/departments/<int:id_departamento>', methods=['GET'])
+    def get_department_by_id(id_departamento):
         # Call the controller to get a department by its ID
-        department = DepartmentController.get_department_by_id_controller(department_id)
+        department = DepartmentController.get_department_by_id_controller(id_departamento)
         if department is None:
             return jsonify({"mensaje": "Departamento inexistente"}), 404
         
