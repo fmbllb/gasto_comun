@@ -1,11 +1,14 @@
-from models.BillModel import db, Bill
+from models.BillModel import db, Bill, TipoGasto
+from datetime import datetime
 
 class BillService:
     
     @staticmethod
-    def create_bill(id_gasto, nom_gasto, total_gasto, fecha_gasto, tipo_gasto):
+    def create_bill(nom_gasto, total_gasto, fecha_gasto, tipo_gasto):
+
+        fecha_gasto = datetime.strptime(fecha_gasto, '%d-%m-%Y').date()
+
         bill = Bill(
-            id_gasto=id_gasto,
             nom_gasto=nom_gasto,
             total_gasto=total_gasto,
             fecha_gasto=fecha_gasto,
@@ -20,5 +23,23 @@ class BillService:
         return Bill.query.all()        
     
     @staticmethod
-    def get_bill_by_id(id_departmento):
-        return Bill.query.get(id_departmento)
+    def get_bill_by_id(id_gasto):
+        return Bill.query.get(id_gasto)
+
+    
+    @staticmethod
+    def update_tipo_gasto(id_gasto, nuevo_tipo):
+        # Verificar si el gasto existe
+        bill = Bill.query.get(id_gasto)
+        if not bill:
+            return {"error": "Gasto no encontrado"}, 404
+
+        # Asignar el nuevo tipo de gasto si es válido
+        if nuevo_tipo in [TipoGasto.MANTENCION.value, TipoGasto.ASCENSOR.value, TipoGasto.CUOTA.value]:
+            bill.tipo_gasto = TipoGasto(nuevo_tipo)
+        else:
+            return {"error": "Valor de tipo de gasto no válido"}, 400
+
+        # Guardar los cambios
+        db.session.commit()
+        return bill.serialize(), 200

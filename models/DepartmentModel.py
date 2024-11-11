@@ -30,6 +30,6 @@ def serialize(self):
         'n_piso': self.n_piso,
         'direccion': self.direccion,
         'n_telefono': self.n_telefono,
-        'disponibilidad': self.disponibilidad.value,  # Convert enum to its value
+        'disponibilidad': self.disponibilidad.value,
         'bills': [bill.serialize() for bill in self.bills],
     }
