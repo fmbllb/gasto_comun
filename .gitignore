@@ -14,6 +14,7 @@ venv/
 # Base de datos SQLite
 db_tasks.db
 *.sqlite3
+migrations/
 
 # Archivos de logs
 *.log
