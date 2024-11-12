@@ -42,7 +42,7 @@ class BillView:
         if bill is None:
             return jsonify({"mensaje": "Gasto Comun inexistente"}), 404
         
-        return jsonify({"id": bill.id_gasto, "nom_gasto": bill.nom_gasto}), 200
+        return jsonify({"id": bill.id_gasto, "nom_gasto": bill.nom_gasto, "tipo_gasto": bill.tipo_gasto}), 200
     
     @staticmethod
     @bill_blueprint.route('/bills/<int:id_gasto>/tipo', methods=['PUT'])
