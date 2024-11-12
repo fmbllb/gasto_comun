@@ -1,4 +1,4 @@
-from models.DepartmentModel import db, Department
+from models.DepartmentModel import asociar_facturas_a_departamento, db, Department
 
 class DepartmentService:
     
@@ -13,6 +13,7 @@ class DepartmentService:
         )
         db.session.add(department)
         db.session.commit()
+        asociar_facturas_a_departamento(department.id_departamento)
         return department 
         
     @staticmethod
