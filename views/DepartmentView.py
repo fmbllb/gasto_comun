@@ -51,6 +51,7 @@ class DepartmentView:
                             "direccion": department.direccion, "n_telefono": department.n_telefono,
                             "disponibilidad": department.disponibilidad }), 200
     
+    @staticmethod
     @department_blueprint.route('/departments/update_disponibilidad', methods=['PUT'])
     def update_disponibilidad():
         data = request.get_json()
@@ -72,3 +73,10 @@ class DepartmentView:
             }), 200
         else:
             return jsonify({"mensaje": "Departamento no encontrado"}), 404
+        
+    @staticmethod
+    @department_blueprint.route('/departments/<int:id_departamento>/pagar/<int:id_gasto>', methods=['POST'])
+    def registrar_pago(idDepartamento, idGasto):
+        # Llamar al servicio para manejar el pago
+        response, status_code = DepartmentController.registrar_pago(idDepartamento, idGasto)
+        return jsonify(response), status_code
