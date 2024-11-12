@@ -1,6 +1,9 @@
 from app import db
 from enum import Enum
 
+from models.BillModel import Bill
+from models.PaymentHistoryModel import EstadoDeuda, PaymentHistory
+
 
 class Disponibilidad(str, Enum):
     INMEDIATA = "i"
@@ -33,3 +36,21 @@ def serialize(self):
         'disponibilidad': self.disponibilidad.value,
         'bills': [bill.serialize() for bill in self.bills],
     }
+
+def asociar_facturas_a_departamento(departamento_id):
+    # Recuperar todas las facturas existentes
+    facturas = Bill.query.all()
+    
+    # Crear entradas en PaymentHistory para cada factura
+    for factura in facturas:
+        nueva_entrada = PaymentHistory(
+            idDepartamento=departamento_id,
+            idGasto=factura.id_gasto,
+            fecha_emision=factura.fecha_emision,
+            cantidad=factura.cantidad,
+            monto_pagado=0,
+            estado_deuda=EstadoDeuda.NOTIFICADO,
+        )
+        db.session.add(nueva_entrada)
+
+    db.session.commit()
