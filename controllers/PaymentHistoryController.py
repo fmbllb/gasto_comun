@@ -14,3 +14,7 @@ class PaymentHistoryController:
     @staticmethod
     def get_payment_history_by_id_controller(idDepartamento, idGasto):
         return PaymentHistoryService.get_payment_history_by_id(idDepartamento, idGasto)
+    
+    @staticmethod
+    def get_payment_history_by_date_controller(fecha_emision):
+        return PaymentHistoryService.get_payment_history_by_date(fecha_emision)
