@@ -3,9 +3,9 @@ from services.PaymentHistoryService import PaymentHistoryService
 class PaymentHistoryController:    
     @staticmethod
     def create_payment_history_controller(idDepartamento, idGasto, 
-                                        fecha_emision, cantidad, precio_pago, estado_deuda):
+                                        fecha_emision, precio_pago, estado_deuda):
         return PaymentHistoryService.create_payment_history(idDepartamento, idGasto,
-                                                fecha_emision, cantidad, precio_pago, estado_deuda)
+                                                fecha_emision, precio_pago, estado_deuda)
             
     @staticmethod
     def get_payment_history_controller():        
