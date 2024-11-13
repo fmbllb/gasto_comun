@@ -4,7 +4,21 @@ from controllers.PaymentHistoryController import PaymentHistoryController
 
 payment_history_blueprint = Blueprint('payment_history_blueprint', __name__)
 
+
+"""
+componente>>
+    >>PaymentHistoryView
+        >>create_payment_history()
+        >>get_all_payment_histories()        
+        >>get_payment_history_by_id()
+        >>get_payment_history_by_date()
+"""
+
+
+
 class PaymentHistoryView:
+
+
 
     @staticmethod
     @payment_history_blueprint.route('/payment_histories/create', methods=['POST'])
