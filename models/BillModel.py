@@ -1,5 +1,5 @@
 from app import db
-from datetime import datetime
+from sqlalchemy.sql import func
 from enum import Enum
 
 
@@ -18,9 +18,9 @@ class Bill(db.Model):
     id_gasto     = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nom_gasto = db.Column(db.String(15), nullable=False)
     total_gasto = db.Column(db.Integer, nullable=False)
-    fecha_gasto = db.Column(db.Date, nullable=False, default=datetime.now())
+    fecha_emision = db.Column(db.DateTime, nullable=False, server_default=func.now()) #Fecha en la que se emite la factura
+    fecha_gasto = db.Column(db.DateTime, nullable=False, server_default=func.now()) #Fecha de creacion de la factura
     tipo_gasto = db.Column(db.Enum(TipoGasto), nullable=False)
-    #fecha_emision = db.Column(db.Date, nullable=False, default=datetime.now)
 
     # Relación con PaymentHistory
     payment_history = db.relationship('PaymentHistory', back_populates='bill', lazy=True)
@@ -31,6 +31,7 @@ class Bill(db.Model):
             'nom_gasto': self.nom_gasto,
             'total_gasto': self.total_gasto,
             'fecha_gasto': self.fecha_gasto.isoformat() if self.fecha_gasto else None,
+            'fecha_emision': self.fecha_emision.isoformat() if self.fecha_emision else None,
             'tipo_gasto': self.tipo_gasto.value,
             'payment_history': [payment.serialize() for payment in self.payment_history],
         }
