@@ -6,12 +6,13 @@ class BillService:
     @staticmethod
     def create_bill(nom_gasto, total_gasto, fecha_gasto, tipo_gasto):
 
-        fecha_gasto = datetime.strptime(fecha_gasto, '%d-%m-%Y').date()
+        fecha_gasto_datetime = datetime.strptime(fecha_gasto, '%Y-%m-%d %H:%M:%S')
+        fecha_gasto_date = fecha_gasto_datetime.date()
 
         bill = Bill(
             nom_gasto=nom_gasto,
             total_gasto=total_gasto,
-            fecha_gasto=fecha_gasto,
+            fecha_gasto_date=fecha_gasto_date,
             tipo_gasto=tipo_gasto
         )
         db.session.add(bill)
