@@ -3,6 +3,16 @@ from controllers.DepartmentController import DepartmentController
 
 department_blueprint = Blueprint('department_blueprint', __name__)
 
+""" 
+componente>>
+    >>DepartamentoView
+        >>create_department()
+        >>get_all_departments()
+        >>get_department_by_id()
+        >>update_disponibilidad()
+        >>registrar_pago() 
+"""
+
 class DepartmentView:
 
     @staticmethod
