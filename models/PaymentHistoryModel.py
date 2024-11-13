@@ -1,3 +1,4 @@
+from datetime import datetime
 from app import db
 from enum import Enum
 
@@ -15,7 +16,7 @@ class PaymentHistory(db.Model):
     
     idDepartamento = db.Column(db.Integer, db.ForeignKey('department.id_departamento'), primary_key=True)
     idGasto = db.Column(db.Integer, db.ForeignKey('bill.id_gasto'), primary_key=True)
-    fecha_emision = db.Column(db.Date, nullable=False)
+    fecha_emision = db.Column(db.Date, nullable=False, default=datetime.now)
     cantidad = db.Column(db.Integer, nullable=False)
     monto_pagado = db.Column(db.Integer, nullable=False)
     estado_deuda = db.Column(db.Enum(EstadoDeuda), nullable=False) # n = Notificado, m = Moroso, a = Al día
