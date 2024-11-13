@@ -21,8 +21,9 @@ class DepartmentController:
         return DepartmentService.update_disponibilidad(id_departamento, new_disponibilidad)
     
     @staticmethod
-    def registrar_pago_controller(id_departamento, id_gasto, fecha_emision, 
-                                precio_pago, estado_deuda):
+    def registrar_pago_controller(id_departamento, id_gasto, monto_pagado, fecha_pago):
+        return DepartmentService.registrar_pago(id_departamento, id_gasto, monto_pagado, fecha_pago)
+
         
         return DepartmentService.registrar_pago(id_departamento, id_gasto, 
                                                 fecha_emision, precio_pago, estado_deuda)

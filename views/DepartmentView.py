@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from controllers.DepartmentController import DepartmentController
 from models.DepartmentModel import Department
+from datetime import datetime
 
 department_blueprint = Blueprint('department_blueprint', __name__)
 
@@ -90,7 +91,10 @@ class DepartmentView:
         
     @staticmethod
     @department_blueprint.route('/departments/<int:id_departamento>/pagar/<int:id_gasto>', methods=['POST'])
-    def registrar_pago(idDepartamento, idGasto):
-        # Llamar al servicio para manejar el pago
-        response, status_code = DepartmentController.registrar_pago(idDepartamento, idGasto)
+    def registrar_pago(id_departamento, id_gasto):
+        data = request.get_json()
+        monto_pagado = data.get('monto_pagado')
+        fecha_pago = data.get('fecha_pago', datetime.now().isoformat())  # Usa la fecha actual si no se especifica
+
+        response, status_code = DepartmentController.registrar_pago_controller(id_departamento, id_gasto, monto_pagado, fecha_pago)
         return jsonify(response), status_code

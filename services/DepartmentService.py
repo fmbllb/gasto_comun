@@ -1,5 +1,6 @@
 from models.DepartmentModel import asociar_facturas_a_departamento, db, Department
 from models.PaymentHistoryModel import EstadoDeuda, PaymentHistory
+from datetime import datetime
 
 class DepartmentService:
     
@@ -37,24 +38,32 @@ class DepartmentService:
             return None
     
     @staticmethod
-    def registrar_pago(id_departamento, id_gasto, precio_pago, estado_deuda):
-        # Buscar la entrada en PaymentHistory
-        payment_history_entry = PaymentHistory.query.filter_by(
-            idDepartamento=id_departamento,
-            idGasto=id_gasto
-        ).first()
-        # Si el registro no existe, simplemente retornar None para que la vista maneje el error
-        if not payment_history_entry:
-            return None
-        # Actualizar el monto pagado
-        payment_history_entry.monto_pagado += precio_pago
-        # Cambiar el estado de la deuda si está completamente pagada
-        if payment_history_entry.monto_pagado >= payment_history_entry.precio_total:
-            payment_history_entry.estado_deuda = EstadoDeuda.PAGADO
+    def registrar_pago(id_departamento, id_gasto, monto_pagado, fecha_pago):
+        print("id_departamento:", id_departamento)  # Verifica que sea 3
+        print("id_gasto:", id_gasto)                # Verifica que sea 1
+        # Convertir `fecha_pago` a un objeto datetime si es necesario
+        fecha_pago_dt = datetime.fromisoformat(fecha_pago)
+
+        # Buscar el registro de `PaymentHistory` correspondiente
+        payment_record = PaymentHistory.query.filter_by(idDepartamento=id_departamento, idGasto=id_gasto).first()
+        if payment_record:
+            print("Registro encontrado:", payment_record)
         else:
-            # Mantener el estado actual o actualizarlo a un estado parcial si es necesario
-            payment_history_entry.estado_deuda = estado_deuda
-        # Confirmar los cambios en la base de datos
+            print("Registro no encontrado")
+
+        if not payment_record:
+            return {"error": "Registro de pago no encontrado"}, 404
+
+        # Verificar que `bill` esté relacionado
+        if not payment_record.bill:
+            return {"error": "No se encontró la relación con el gasto (Bill)"}, 404
+
+        # Actualizar los campos de pago
+        payment_record.monto_pagado = monto_pagado
+        payment_record.fecha_pago = fecha_pago_dt
+        payment_record.estado_deuda = EstadoDeuda.ALDIA if monto_pagado >= payment_record.bill.total_gasto else EstadoDeuda.MOROSO
+
+        # Guardar los cambios en la base de datos
         db.session.commit()
 
-        return payment_history_entry  # Devolver el objeto actualizado para que la vista pueda utilizarlo si es necesario
+        return {"message": "Pago registrado con éxito"}, 200
