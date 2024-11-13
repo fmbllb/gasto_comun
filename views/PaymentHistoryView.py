@@ -50,12 +50,15 @@ class PaymentHistoryView:
     @staticmethod
     @payment_history_blueprint.route('/payment_histories', methods=['GET'])
     def get_all_payment_histories():
-        # Call the controller to get all payment histories
+        # Llama al controlador para obtener todos los historiales de pago
         payment_histories = PaymentHistoryController.get_payment_history_controller()
         payment_histories_list = [
             {
                 "id": f"{payment_history.idDepartamento}-{payment_history.idGasto}",
-                "fecha_emision": payment_history.fecha_emision.strftime("%d/%m/%Y")
+                "fecha_emision": payment_history.fecha_emision.strftime("%d/%m/%Y") if payment_history.fecha_emision else None,
+                "fecha_pago": payment_history.fecha_pago.strftime("%d/%m/%Y") if payment_history.fecha_pago else None,
+                "monto_pagado": payment_history.monto_pagado,
+                "estado_deuda": payment_history.estado_deuda
             } for payment_history in payment_histories
         ]
         return jsonify({"Historiales de pago": payment_histories_list}), 200
