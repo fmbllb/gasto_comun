@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Blueprint, request, jsonify
 from controllers.BillController import BillController
 
@@ -12,22 +13,31 @@ componente>>
 """
 class BillView:
 
-    @staticmethod
     @bill_blueprint.route('/bills/create', methods=['POST'])
     def create_bill():
-        # Receive the request to create a bill and delegate to the controller
+        # Recibe los datos de la solicitud
         data = request.get_json()
         nom_gasto = data.get('nom_gasto')
         total_gasto = data.get('total_gasto')
         tipo_gasto = data.get('tipo_gasto')
+        
+        # Usa la fecha actual si no se proporciona
+        fecha_creacion_gasto = data.get('fecha_creacion_gasto', datetime.now())
 
-        new_bill = BillController.create_bill_controller(nom_gasto, total_gasto, 
-                                                        tipo_gasto)
+        # Llama al controlador con todos los argumentos requeridos
+        new_bill = BillController.create_bill_controller(
+            nom_gasto, total_gasto, fecha_creacion_gasto, tipo_gasto
+        )
         
         return jsonify({
             "mensaje": "Gasto Comun creado", 
-            "Gasto Comun": {"id": new_bill.id_gasto, "nombre": new_bill.nom_gasto, "Total Gasto": new_bill.total_gasto, 
-                            "Fecha Creacion Gasto": new_bill.fecha_gasto, "Tipo Gasto": new_bill.tipo_gasto}
+            "Gasto Comun": {
+                "id": new_bill.id_gasto,
+                "nombre": new_bill.nom_gasto,
+                "Total Gasto": new_bill.total_gasto,
+                "Fecha Creacion Gasto": new_bill.fecha_creacion_gasto,
+                "Tipo Gasto": new_bill.tipo_gasto
+            }
         }), 201
 
     @staticmethod

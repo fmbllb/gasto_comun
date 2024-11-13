@@ -14,7 +14,7 @@ class Disponibilidad(str, Enum):
         return [(choice.value, choice.name) for choice in cls]
 
 class Department(db.Model):
-    __tablename__ = 'department'
+    __tablename__ = 'Department'
 
     id_departamento = db.Column(db.Integer, primary_key=True, autoincrement=True)
     n_departamento = db.Column(db.Integer, unique=True, nullable=False)
@@ -24,7 +24,7 @@ class Department(db.Model):
     disponibilidad = db.Column(db.Enum(Disponibilidad), nullable=False)
     
     # Relación con PaymentHistory
-    payment_history = db.relationship('PaymentHistory', back_populates='department', lazy=True)
+    payment_history = db.relationship('PaymentHistory', back_populates='Department', lazy=True)
 
 def serialize(self):
     return {
@@ -37,14 +37,14 @@ def serialize(self):
         'bills': [bill.serialize() for bill in self.bills],
     }
 
-def asociar_facturas_a_departamento(departamento_id):
+def asociar_facturas_a_departamento(id_departamento):
     # Recuperar todas las facturas existentes
     facturas = Bill.query.all()
     
     # Crear entradas en PaymentHistory para cada factura
     for factura in facturas:
         nueva_entrada = PaymentHistory(
-            idDepartamento=departamento_id,
+            idDepartamento=id_departamento,
             idGasto=factura.id_gasto,
             fecha_emision=factura.fecha_emision,
             monto_pagado=0,

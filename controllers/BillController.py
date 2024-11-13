@@ -2,10 +2,8 @@ from services.BillService import BillService
 
 class BillController:    
     @staticmethod
-    def create_bill_controller(nom_gasto, 
-        total_gasto, fecha_gasto, tipo_gasto):
-        return BillService.create_bill(nom_gasto, 
-            total_gasto, fecha_gasto, tipo_gasto)
+    def create_bill_controller(nom_gasto, total_gasto, fecha_creacion_gasto, tipo_gasto):
+        return BillService.create_bill(nom_gasto, total_gasto, fecha_creacion_gasto, tipo_gasto)
             
     @staticmethod
     def get_bill_controller():        

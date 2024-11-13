@@ -4,20 +4,20 @@ from datetime import datetime
 class BillService:
     
     @staticmethod
-    def create_bill(nom_gasto, total_gasto, fecha_gasto, tipo_gasto):
-
-        fecha_gasto_datetime = datetime.strptime(fecha_gasto, '%Y-%m-%d %H:%M:%S')
-        fecha_gasto_date = fecha_gasto_datetime.date()
+    def create_bill(nom_gasto, total_gasto, fecha_creacion_gasto, tipo_gasto):
+        # Convierte la fecha de creación a datetime si es un string
+        if isinstance(fecha_creacion_gasto, str):
+            fecha_creacion_gasto = datetime.strptime(fecha_creacion_gasto, '%Y-%m-%d %H:%M:%S')
 
         bill = Bill(
             nom_gasto=nom_gasto,
             total_gasto=total_gasto,
-            fecha_gasto_date=fecha_gasto_date,
+            fecha_creacion_gasto=fecha_creacion_gasto,  # Usa fecha_creacion_gasto directamente
             tipo_gasto=tipo_gasto
         )
         db.session.add(bill)
         db.session.commit()
-        return bill 
+        return bill
         
     @staticmethod
     def get_all_bills():
