@@ -24,7 +24,7 @@ class Department(db.Model):
     disponibilidad = db.Column(db.Enum(Disponibilidad), nullable=False)
     
     # Relación con PaymentHistory
-    payment_history = db.relationship('PaymentHistory', back_populates='Department', lazy=True)
+    payment_history = db.relationship('PaymentHistory', back_populates='department', lazy=True)
 
 def serialize(self):
     return {

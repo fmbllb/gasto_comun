@@ -17,7 +17,7 @@ class PaymentHistory(db.Model):
     
     idDepartamento = db.Column(db.Integer, db.ForeignKey('Department.id_departamento'), primary_key=True)
     idGasto = db.Column(db.Integer, db.ForeignKey('Bill.id_gasto'), primary_key=True)
-    fecha_emision = db.Column(db.DateTime, nullable=False)
+    fecha_emision = db.Column(db.DateTime, nullable=True)
     fecha_pago = db.Column(db.DateTime, nullable=True)
     monto_pagado = db.Column(db.Integer, nullable=True)
     estado_deuda = db.Column(db.Enum(EstadoDeuda), nullable=False) # n = Notificado, m = Moroso, a = Al día
