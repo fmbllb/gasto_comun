@@ -15,20 +15,13 @@ class PaymentHistoryView:
         # Retrieve the fields from the JSON
         idDepartamento = data.get('idDepartamento')
         idGasto = data.get('idGasto')
-        fecha_emision_str = data.get('fecha_emision')  # Expecting the date as a string
         cantidad = data.get('cantidad')
         monto_pagado = data.get('monto_pagado')
         estado_deuda = data.get('estado_deuda')
 
-        # Convert the string date to a datetime.date object
-        try:
-            fecha_emision = datetime.strptime(fecha_emision_str, "%d-%m-%Y").date()
-        except ValueError:
-            return jsonify({"error": "Fecha de emisión no tiene el formato correcto, use dd-mm-YYYY"}), 400
-
         # Call the controller to handle the business logic
         new_payment_history = PaymentHistoryController.create_payment_history_controller(
-            idDepartamento, idGasto, fecha_emision, cantidad, monto_pagado, estado_deuda
+            idDepartamento, idGasto, cantidad, monto_pagado, estado_deuda
         )
         
         # Return the response
@@ -48,7 +41,7 @@ class PaymentHistoryView:
         payment_histories_list = [
             {
                 "id": f"{payment_history.idDepartamento}-{payment_history.idGasto}",
-                "fecha_emision": payment_history.fecha_emision
+                "fecha_emision": payment_history.fecha_emision.strftime("%d/%m/%Y")
             } for payment_history in payment_histories
         ]
         return jsonify({"Historiales de pago": payment_histories_list}), 200
