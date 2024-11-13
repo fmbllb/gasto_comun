@@ -19,11 +19,10 @@ class BillView:
         data = request.get_json()
         nom_gasto = data.get('nom_gasto')
         total_gasto = data.get('total_gasto')
-        fecha_gasto = data.get('fecha_gasto')
         tipo_gasto = data.get('tipo_gasto')
 
         new_bill = BillController.create_bill_controller(nom_gasto, total_gasto, 
-                                                        fecha_gasto, tipo_gasto)
+                                                        tipo_gasto)
         
         return jsonify({
             "mensaje": "Gasto Comun creado", 
