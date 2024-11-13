@@ -1,4 +1,8 @@
 from services.PaymentHistoryService import PaymentHistoryService
+from models.PaymentHistoryModel import PaymentHistory
+from sqlalchemy import func
+
+
 
 class PaymentHistoryController:    
     @staticmethod
@@ -16,5 +20,5 @@ class PaymentHistoryController:
         return PaymentHistoryService.get_payment_history_by_id(idDepartamento, idGasto)
     
     @staticmethod
-    def get_payment_history_by_date_controller(fecha_emision):
-        return PaymentHistoryService.get_payment_history_by_date(fecha_emision)
+    def get_payment_history_by_date_controller(fecha_pago):
+        return PaymentHistory.query.filter(func.date(PaymentHistory.fecha_pago) == fecha_pago.date()).all()

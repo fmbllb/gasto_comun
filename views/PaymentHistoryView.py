@@ -75,19 +75,25 @@ class PaymentHistoryView:
             "fecha_emision": payment_history.fecha_emision
         }), 200
         
-    @payment_history_blueprint.route('/payment_histories/<string:fecha_emision>', methods=['GET'])
-    def get_all_payment_history_by_date(fecha_emision):
+    @payment_history_blueprint.route('/payment_histories/fecha_pago/<string:fecha_pago>', methods=['GET'])
+    def get_all_payment_history_by_date(fecha_pago):
         try:
             # Intentamos convertir el string recibido en un objeto datetime
-            fecha_emision = datetime.strptime(fecha_emision, '%Y-%m-%d')
+            fecha_pago_dt = datetime.strptime(fecha_pago, '%Y-%m-%d')
         except ValueError:
             return jsonify({"mensaje": "Formato de fecha incorrecto"}), 400
 
-        payment_history = PaymentHistoryController.get_payment_history_by_date_controller(fecha_emision)
-        if payment_history is None:
-            return jsonify({"mensaje": "Historial inexistente"}), 404
+        # Llama al controlador para obtener todos los historiales de pago en la fecha de pago dada
+        payment_histories = PaymentHistoryController.get_payment_history_by_date_controller(fecha_pago_dt)
         
-        return jsonify({
-            "id": f"{payment_history.idDepartamento}-{payment_history.idGasto}",
-            "fecha_emision": payment_history.fecha_emision.strftime('%Y-%m-%d')
-        }), 200
+        # Crear la lista de resultados procesados
+        payment_histories_list = [
+            {
+                "id": f"{payment_history.idDepartamento}-{payment_history.idGasto}",
+                "fecha_pago": payment_history.fecha_pago.strftime('%Y-%m-%d') if payment_history.fecha_pago else None,
+                "monto_pagado": payment_history.monto_pagado,
+                "estado_deuda": payment_history.estado_deuda
+            } for payment_history in payment_histories
+        ]
+
+        return jsonify({"Historiales de pago": payment_histories_list}), 200
