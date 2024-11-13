@@ -1,4 +1,5 @@
 from app import db
+from datetime import datetime
 from enum import Enum
 
 
@@ -17,8 +18,9 @@ class Bill(db.Model):
     id_gasto     = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nom_gasto = db.Column(db.String(15), nullable=False)
     total_gasto = db.Column(db.Integer, nullable=False)
-    fecha_gasto = db.Column(db.Date, nullable=False)
+    fecha_gasto = db.Column(db.Date, nullable=False, default=datetime.now())
     tipo_gasto = db.Column(db.Enum(TipoGasto), nullable=False)
+    #fecha_emision = db.Column(db.Date, nullable=False, default=datetime.now)
 
     # Relación con PaymentHistory
     payment_history = db.relationship('PaymentHistory', back_populates='bill', lazy=True)
