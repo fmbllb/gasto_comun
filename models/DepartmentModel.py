@@ -47,7 +47,6 @@ def asociar_facturas_a_departamento(departamento_id):
             idDepartamento=departamento_id,
             idGasto=factura.id_gasto,
             fecha_emision=factura.fecha_emision,
-            cantidad=factura.cantidad,
             monto_pagado=0,
             estado_deuda=EstadoDeuda.NOTIFICADO,
         )
