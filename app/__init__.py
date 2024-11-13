@@ -25,14 +25,14 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object('config.Config')
 
-    # Inicializamos el SingletonDB
+    # Inicializa el SingletonDB
     SingletonDB(app)  # Singleton instance of DB
 
-    # Inicializamos Migrate
+    # Inicializa Migrate
     migrate.init_app(app, db)
 
     with app.app_context():
-        # Importamos los modelos después de la inicialización de la app
+        # Importa los modelos después de la inicialización de la app
         from models import DepartmentModel, BillModel, PaymentHistoryModel
 
     return app
