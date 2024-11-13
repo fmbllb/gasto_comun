@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from controllers.DepartmentController import DepartmentController
+from models.DepartmentModel import Department
 
 department_blueprint = Blueprint('department_blueprint', __name__)
 
@@ -28,6 +29,9 @@ class DepartmentView:
 
         new_department = DepartmentController.create_department_controller(n_departamento, n_piso, 
                                                                         direccion, n_telefono, disponibilidad)
+
+        if new_department.n_departamento <= 0:  
+            return jsonify({"mensaje": "El departamento debe ser posible"}), 400
         
         return jsonify({
             "mensaje": "Departamento creado", 
