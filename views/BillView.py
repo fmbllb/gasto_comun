@@ -2,7 +2,14 @@ from flask import Blueprint, request, jsonify
 from controllers.BillController import BillController
 
 bill_blueprint = Blueprint('bill_blueprint', __name__)
-
+"""
+componente>>
+    >>BillView
+        >>create_bill()
+        >>get_all_bills()
+        >>get_bill_by_id()
+        >>modify_bill_tipo()
+"""
 class BillView:
 
     @staticmethod
