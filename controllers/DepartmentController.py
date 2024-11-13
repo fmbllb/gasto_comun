@@ -3,7 +3,8 @@ from services.DepartmentService import DepartmentService
 class DepartmentController:    
     @staticmethod
     def create_department_controller(n_departamento, n_piso,
-                                    direccion, n_telefono, disponibilidad):        
+                                    direccion, n_telefono, disponibilidad):  
+        
         return DepartmentService.create_department(n_departamento, n_piso, direccion,
                                                     n_telefono, disponibilidad)
             
@@ -18,3 +19,10 @@ class DepartmentController:
     @staticmethod
     def update_disponibilidad_controller(id_departamento, new_disponibilidad):
         return DepartmentService.update_disponibilidad(id_departamento, new_disponibilidad)
+    
+    @staticmethod
+    def registrar_pago_controller(id_departamento, id_gasto, fecha_emision, 
+                                precio_pago, estado_deuda):
+        
+        return DepartmentService.registrar_pago(id_departamento, id_gasto, 
+                                                fecha_emision, precio_pago, estado_deuda)
