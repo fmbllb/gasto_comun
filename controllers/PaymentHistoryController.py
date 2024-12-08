@@ -25,4 +25,4 @@ class PaymentHistoryController:
     
     @staticmethod
     def obtener_morosos(limit=None):
-        return PaymentHistory.obtener_departamentos_morosos(limit)
+        return PaymentHistory.obtener_morosos(limit)

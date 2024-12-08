@@ -47,7 +47,7 @@ class PaymentHistory(db.Model):
             return next_month.replace(day=day_of_month)
         
     @staticmethod
-    def obtener_departamentos_morosos(limit: Optional[int] = None) -> List[Dict]:
+    def obtener_morosos(limit: Optional[int] = None) -> list[dict]:
         query = PaymentHistory.query.filter_by(estado_deuda="MOROSO")
         if limit:
             query = query.limit(limit)

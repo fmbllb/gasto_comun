@@ -29,7 +29,7 @@ class PaymentHistoryService:
         return PaymentHistory.query.get((idDepartamento, idGasto))
 
     @staticmethod
-    def obtener_departamentos_morosos(limit: Optional[int] = None) -> List[Dict]:
+    def obtener_morosos(limit: Optional[int] = None) -> List[Dict]:
         query = PaymentHistory.query.filter_by(estado_deuda=EstadoDeuda.MOROSO)
         
         if limit:
