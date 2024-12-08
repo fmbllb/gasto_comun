@@ -97,3 +97,10 @@ class PaymentHistoryView:
         ]
 
         return jsonify({"Historiales de pago": payment_histories_list}), 200
+
+    @staticmethod
+    @payment_history_blueprint.route('/departamentos/morosos', methods=['GET'])
+    def departamentos_morosos():
+        limit = request.args.get('limit', type=int)
+        morosos = PaymentHistoryController.obtener_departamentos_morosos(limit=limit)
+        return jsonify({"Departamentos morosos": morosos}), 200

@@ -22,3 +22,7 @@ class PaymentHistoryController:
     @staticmethod
     def get_payment_history_by_date_controller(fecha_pago):
         return PaymentHistory.query.filter(func.date(PaymentHistory.fecha_pago) == fecha_pago.date()).all()
+    
+    @staticmethod
+    def obtener_morosos(limit=None):
+        return PaymentHistory.obtener_departamentos_morosos(limit)
