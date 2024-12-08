@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from typing import Optional
 from sqlalchemy.sql import func
 from app import db
 from enum import Enum
@@ -44,3 +45,18 @@ class PaymentHistory(db.Model):
             # Move to next month if today is past the specified day
             next_month = today.replace(day=1) + timedelta(days=32)
             return next_month.replace(day=day_of_month)
+        
+    @staticmethod
+    def obtener_departamentos_morosos(limit: Optional[int] = None) -> List[Dict]:
+        query = PaymentHistory.query.filter_by(estado_deuda="MOROSO")
+        if limit:
+            query = query.limit(limit)
+        morosos = query.all()
+        return [m.serialize() for m in morosos]
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "estado_deuda": self.estado_deuda,
+            "monto_adeudado": self.monto_adeudado,
+        }
