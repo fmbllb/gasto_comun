@@ -48,15 +48,10 @@ class PaymentHistory(db.Model):
         
     @staticmethod
     def obtener_morosos(limit: Optional[int] = None) -> list[dict]:
-        query = PaymentHistory.query.filter_by(estado_deuda="MOROSO")
+        # Filtrar registros con estado_deuda "MOROSO"
+        query = PaymentHistory.query.filter_by(estado_deuda=EstadoDeuda.MOROSO)
         if limit:
             query = query.limit(limit)
         morosos = query.all()
         return [m.serialize() for m in morosos]
 
-    def serialize(self):
-        return {
-            "id": self.id,
-            "estado_deuda": self.estado_deuda,
-            "monto_adeudado": self.monto_adeudado,
-        }
