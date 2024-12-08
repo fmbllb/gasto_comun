@@ -34,5 +34,17 @@ POST http://127.0.0.1:5000/departments/iddepartamento/pagar/idgasto
 GET http://127.0.0.1:5000/bills
 
 GET http://127.0.0.1:5000/departments
-GET http://127.0.0.1:5000/payment_histories/fecha_pago/yyyy-mm-dd 
+GET http://127.0.0.1:5000/payment_histories/fecha_pago/yyyy-mm-dd
+
+Probar morosos
+GET http://127.0.0.1:5000/departamentos/morosos
+GET http://127.0.0.1:5000/departamentos/morosos?limit=3
+
+
+
+
+
+
+
+
 ```
